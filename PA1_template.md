@@ -1,13 +1,12 @@
 # Reproducible Research: Peer Assessment 1
 Dana Murray  
-07 November 2015  
-
+09 November 2015  
 
 
 ## Introduction
 
 This assignment is about analyzing personal activity data recorded by an activity monitoring device from an anonymous individual during October and November 2012.
-The [raw data][1] consists of steps taken during a five minute interval, the date and the interval identifier.
+The [raw data][1] consists of three columns, the number of steps taken during a five minute interval, the date and the interval identifier.
 
 [1]: https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip/ "raw data"
 
@@ -18,7 +17,7 @@ The [raw data][1] consists of steps taken during a five minute interval, the dat
 After reading the data 
 there is a bit of preprocessing to obtain the total number of steps per day, as well as the average number of steps per five minute interval, averaged over days.
 
-The interval identifiers, such as 125 and 1345, which signify the times 01:25 and 13:45, are converted to decimal hours after midnight.
+The interval identifiers, such as 125 and 1345, which signify the times 01:25 and 13:45, are used to introduce a more easliy interpretable variable, the decimal hours after midnight.
 
 
 
@@ -78,7 +77,10 @@ medianperday <- median(totalbyday$daytotal, na.rm=TRUE)
 
 
 
-The histogram of the total number of steps per day, having excluded the missing values, shows that there have been many days when our subject performed around 12 000 steps per day. Then there are fewer and fewer days the more the total number of steps departs from this central value. 
+## What is mean total number of steps taken per day?
+
+
+The histogram of the total number of steps per day, where I have excluded the missing values, shows that there were many days when our subject performed around 12 000 steps per day. Then there are fewer and fewer days the more the total number of steps departs from this central value. 
 
 The mean number of steps taken per day is 10766.19 and the median is
 10765 steps per day.
@@ -112,11 +114,13 @@ print(plot12, vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
 ## Warning: Removed 8 rows containing missing values (position_stack).
 ```
 
-![](dmm_RepRes_Proj1_files/figure-html/unnamed-chunk-4-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+
 
 
 
 ## What is the average daily activity pattern?
+
 
 
 
@@ -129,7 +133,7 @@ g <- ggplot(meanbyinterval, aes(x=hrdec, y=intervalmean)) +
 g
 ```
 
-![](dmm_RepRes_Proj1_files/figure-html/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
 
 
 
@@ -144,7 +148,9 @@ maxtime <- paste(substr(intmaxchar, 1, 2), ":", substr(intmaxchar, 3, 4), sep=""
 The maximum average number of steps per interval of 206.17 occurs at interval number 835 which is the 5-minute interval following 08:35.
 
 
+
 ## Imputing missing values
+
 
 
 
@@ -185,18 +191,17 @@ g <- ggplot(totalbydayfilled, aes(totalbydayfilled$daytotal)) +
 g
 ```
 
-![](dmm_RepRes_Proj1_files/figure-html/unnamed-chunk-8-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
 
 
 
 The histogram now has a more pronounced peak.
-The mean number of steps take per day is now 10766.19 and the median is 10766.19 steps per day.
+The mean number of steps take per day is now 10766.19, exactly what it was before, and the median is now 10766.19 steps per day.
 
-It is a bit surprising that the mean number of steps per day remained exactly the same.
+It is a bit surprising that the mean number of steps per day remained  the same.
 This would have been the case if the missing values had been perfectly evenly distributred over days.
-
 It turns out that there are 8 days where none of the intervals has any value, and no NA's on any other days.
-The number of NA's in the dataset should therefore equal 8 days times 288 intervals per day, which is indeed 2304 as reported above.  
+The number of NA's in the dataset should therefore equal 8 days times 288 intervals per day, which is indeed 2304, the number reported above.  
 
 The upshot is that my imputation strategy would have added eight days with a total of 10766.19 steps, which is the original mean number of steps per day.
 Hence, the mean of number of steps per day does not change.
@@ -218,7 +223,7 @@ During the day he does not appear to move about much, except at around 12:00 and
 There is another spurt of activity at around 19:00.
 He seems to go to bed at about 22:00.
 
-During the weekends he becomes active at about 08:00, maintain a higher activity level during the weekend days, and then also retires at around 22:00.
+During the weekends he becomes active at about 08:00, maintains a higher activity level during the weekend days, and then also retires at around 22:00.
 
 
 ```r
@@ -244,6 +249,6 @@ g <- ggplot(meanbyintervalpertypeofday, aes(hrdec, typeintervalmean)) +
 print(g)
 ```
 
-![](dmm_RepRes_Proj1_files/figure-html/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
 
 
